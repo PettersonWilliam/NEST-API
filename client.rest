@@ -1,0 +1,3 @@
+### AppControllerGethello
+@name AppControllerGethello
+GET https://localhost:4000/home/hello
