@@ -1,3 +1,12 @@
-### AppControllerGethello
-@name AppControllerGethello
-GET https://localhost:4000/home/hello
+@baseUrl = http://localhost:4000
+# AppControllerGethello
+GET {{baseUrl}}/home/hello/
+
+### ExemploDeRota
+GET {{baseUrl}}/home/exemplo/
+
+### ConceitosManualControllerHome
+GET {{baseUrl}}/conceitos-manual/
+
+### ConceitosAutomaticoControllerHome
+GET {{baseUrl}}/conceitos-automatico/
