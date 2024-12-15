@@ -1,5 +1,14 @@
 @baseUrl = http://localhost:4000
 # AppControllerGethello
+
+# Rota para buscas todos os recados
+GET {{baseUrl}}/recados
+
+### Rota para buscar um recado
+GET {{baseUrl}}/recados/1
+
+
+###
 GET {{baseUrl}}/home/hello/
 
 ### ExemploDeRota
