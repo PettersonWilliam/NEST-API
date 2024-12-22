@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, HttpCode } from '@nestjs/common';
 
 @Controller('recados')
 export class RecadosController {
@@ -15,4 +15,14 @@ export class RecadosController {
             
             return `Retorna UM recado de ID ${id}`;
         }
+    @Post()
+    //Caso queira mudar o status code - 201 foi oe exemplo do codigo qu eusei
+    // @HttpCode(201)
+
+    //Seria uma boa pratica usar da seguinte forma
+    // @HttpCode(HttpStatus.Ok) - temos varios status code no nestjs ao inves de ta passando numero
+    create(@Body() body: any) {
+        console.log(body, "body");
+        return body;
+    }
 }

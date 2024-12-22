@@ -7,7 +7,15 @@ GET {{baseUrl}}/recados
 ### Rota para buscar um recado
 GET {{baseUrl}}/recados/1
 
+###
+# Rota para criar um recado
+POST {{baseUrl}}/recados
+Content-Type: application/json
 
+{
+    "recado": "Recado 1",
+    "outra chave": "Descrição do recado 1"
+}
 ###
 GET {{baseUrl}}/home/hello/
 
