@@ -6,10 +6,10 @@ import { ConceitosAutomaticoModule } from '../conceitos-automatico/conceitos-aut
 import { RecadosModule } from '../recados/recados.module';
 
 @Module({
-  // imports: [ConceitosManualModule, ConceitosAutomaticoModule, RecadosModule],
-  imports: [RecadosModule],
-  controllers: [AppController],
-  providers: [AppService]
+	// imports: [ConceitosManualModule, ConceitosAutomaticoModule, RecadosModule],
+	imports: [RecadosModule],
+	controllers: [AppController],
+	providers: [AppService]
 })
 
 export class AppModule {}

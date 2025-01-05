@@ -1,8 +1,10 @@
 @baseUrl = http://localhost:4000
 # AppControllerGethello
 
-# Rota para buscas todos os recados
+# Rota para busca todos os recados
 GET {{baseUrl}}/recados
+# ?LIMIT=10
+# &OFFSET=0
 
 ### Rota para buscar um recado
 GET {{baseUrl}}/recados/1
@@ -13,8 +15,8 @@ POST {{baseUrl}}/recados
 Content-Type: application/json
 
 {
-    "recado": "Recado 1",
-    "outra chave": "Descrição do recado 1"
+    "recado": "Recado CRIADO",
+    "outra chave": "Observação do recado 1"
 }
 ###
 GET {{baseUrl}}/home/hello/
@@ -27,3 +29,16 @@ GET {{baseUrl}}/conceitos-manual/
 
 ### ConceitosAutomaticoControllerHome
 GET {{baseUrl}}/conceitos-automatico/
+### Rota para atualizar um recado
+#Usamos o patch para atualizar tbm, 
+#porem ele seria mais usado quando quisermos atulizar a chave de um ,dos valores que queremos atualizar
+PATCH  {{baseUrl}}/recados/1
+Content-Type: application/json
+
+{
+    "recado": "Recado 1",
+    "atualizar": true
+}
+
+### Rota para deletar um recado
+DELETE {{baseUrl}}/recados/1
