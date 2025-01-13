@@ -3,32 +3,26 @@
 
 # Rota para busca todos os recados
 GET {{baseUrl}}/recados
-# ?LIMIT=10
-# &OFFSET=0
+?LIMIT=10
+&OFFSET=0
 
 ### Rota para buscar um recado
-GET {{baseUrl}}/recados/1
+GET {{baseUrl}}/recados/2
 
 ###
 # Rota para criar um recado
 POST {{baseUrl}}/recados
 Content-Type: application/json
+//informa o tipo de conteudo que estamos enviando
 
 {
-    "recado": "Recado CRIADO",
-    "outra chave": "Observação do recado 1"
+    "texto": "Novo Recado Pra mim Pett",
+    "de": "João",
+    "para": "Maria",
+    "lido": false,
+    "data": "2025-01-12T20:40:41.095Z"
 }
-###
-GET {{baseUrl}}/home/hello/
 
-### ExemploDeRota
-GET {{baseUrl}}/home/exemplo/
-
-### ConceitosManualControllerHome
-GET {{baseUrl}}/conceitos-manual/
-
-### ConceitosAutomaticoControllerHome
-GET {{baseUrl}}/conceitos-automatico/
 ### Rota para atualizar um recado
 #Usamos o patch para atualizar tbm, 
 #porem ele seria mais usado quando quisermos atulizar a chave de um ,dos valores que queremos atualizar
@@ -36,8 +30,11 @@ PATCH  {{baseUrl}}/recados/1
 Content-Type: application/json
 
 {
-    "recado": "Recado 1",
-    "atualizar": true
+    "texto": "Recado 1",
+    "de": "João",
+    "para": "Maria",
+    "lido": false,
+    "data": "2025-01-12T20:40:41.095Z"
 }
 
 ### Rota para deletar um recado
