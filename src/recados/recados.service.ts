@@ -1,4 +1,5 @@
 const { Injectable } = require('@nestjs/common');
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Recado } from './entities/recado.entity';
 
 @Injectable()
@@ -15,12 +16,23 @@ export class RecadosService {
         }
     ];
 
+    trowNotFoundError() {
+        throw new NotFoundException(`RECADO NÃO ENCONTRADO`);
+    }
+
     findAll() {
         return this.recados;
     }
 
     findOne(id: string) {
-       return this.recados.find(recado => recado.id === +id);
+        const recado = this.recados.find(recado => recado.id === +id);
+        if (recado) return recado;
+
+        this.trowNotFoundError();
+
+        // throw new HttpException(`RECADO NÃO ENCONTRADO`, HttpStatus.NOT_FOUND);
+        // NESTE CASO ULTILIZAMOS ESSE METODO "HttpException" POIS COMO DAR ERRO, ALEM DA MENSAGEM DE ERRO, ELE RETORNA O STUSCODE DO ERRO "404"
+        // throw new Error(`RECADO NÃO ENCONTRADO`, 404); NAO PODEMOS USAR DESSA FORMA POIS ELE SO RECEBE UM PARAMETRO E A APLICACAO VAI QUEBRAR NEST ELE REQUER O STATUSCODE
     }
 
     create(body: any) {
@@ -39,19 +51,18 @@ export class RecadosService {
             recado => recado.id === +id
         );
 
-        if (recadoExistenteIndex >= 0) {
-            const recadoExistente = this.recados[recadoExistenteIndex];
-
-            this.recados[recadoExistenteIndex] = {
-                ...recadoExistente,
-                ...body
-            }
+        if (recadoExistenteIndex < 0) {
+            return this.trowNotFoundError();
+        }
+        
+        const recadoExistente = this.recados[recadoExistenteIndex];
+        
+        this.recados[recadoExistenteIndex] = {
+            ...recadoExistente,
+            ...body
         }
 
-
-
-        Object.assign(recadoExistenteIndex, body);
-        return recadoExistenteIndex;
+        return this.recados[recadoExistenteIndex];
     }
 
     remove(id: string) {
@@ -59,15 +70,12 @@ export class RecadosService {
             recado => recado.id === +id
         );
 
-        if (!recadoExistenteIndex) {
-            return `Nao existe recado com o id ${id}`;
-        }
-    
-        if (recadoExistenteIndex >= 0) {
-            return this.recados.splice(recadoExistenteIndex, 1);
-        }
+        if (recadoExistenteIndex < 0) return this.trowNotFoundError();
 
         const recado = this.recados[recadoExistenteIndex];
+
+        this.recados.splice(recadoExistenteIndex, 1);
+            
         return recado;
     }
 }

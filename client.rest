@@ -16,9 +16,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto": "Novo Recado Pra mim Pett",
-    "de": "João",
-    "para": "Maria",
+    "texto": "testando novo recado",
+    "de": "Pett",
+    "para": "João",
     "lido": false,
     "data": "2025-01-12T20:40:41.095Z"
 }
@@ -38,4 +38,4 @@ Content-Type: application/json
 }
 
 ### Rota para deletar um recado
-DELETE {{baseUrl}}/recados/1
+DELETE {{baseUrl}}/recados/2
