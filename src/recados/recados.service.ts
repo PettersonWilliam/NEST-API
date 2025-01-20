@@ -1,6 +1,8 @@
 const { Injectable } = require('@nestjs/common');
 import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Recado } from './entities/recado.entity';
+import { CreateRecadoDto } from './dto/create-recado.dto';
+import { UpdateRecadoDto } from './dto/update-recado.dto';
 
 @Injectable()
 export class RecadosService {
@@ -35,18 +37,20 @@ export class RecadosService {
         // throw new Error(`RECADO NÃO ENCONTRADO`, 404); NAO PODEMOS USAR DESSA FORMA POIS ELE SO RECEBE UM PARAMETRO E A APLICACAO VAI QUEBRAR NEST ELE REQUER O STATUSCODE
     }
 
-    create(body: any) {
+    create(createRecadoDto: CreateRecadoDto) {
         this.lastId++;
         const novoRecado = {
             id: this.lastId,
-            ...body
+            ...createRecadoDto,
+            lido: false,
+            data: new Date()
         }
 
         this.recados.push(novoRecado);
         return novoRecado;
     }
 
-    update(id: string, body: any) {
+    update(id: string, updateRecadoDto: UpdateRecadoDto) {
         const recadoExistenteIndex = this.recados.findIndex(
             recado => recado.id === +id
         );
@@ -59,7 +63,7 @@ export class RecadosService {
         
         this.recados[recadoExistenteIndex] = {
             ...recadoExistente,
-            ...body
+            ...updateRecadoDto
         }
 
         return this.recados[recadoExistenteIndex];
