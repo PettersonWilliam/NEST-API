@@ -7,7 +7,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // remove campos que nao estao no DTO
     forbidNonWhitelisted: true, // retorna um erro se tiver campos que nao estao no DTO
-    transform: true, // transforma os dados para o tipo que foi passado no DTO
+    transform: false
   }));
   await app.listen(process.env.PORT ?? 4000);
 }

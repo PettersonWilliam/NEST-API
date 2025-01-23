@@ -16,19 +16,19 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto":"",
+    "texto":"Ola full",
     "de": "Arthur",
-    "para": "Anna",
+    "para": "Anna"
 }
 
 ### Rota para atualizar um recado
 #Usamos o patch para atualizar tbm, 
 #porem ele seria mais usado quando quisermos atulizar a chave de um ,dos valores que queremos atualizar
-PATCH  {{baseUrl}}/recados/1
+PATCH  {{baseUrl}}/recados/2
 Content-Type: application/json
 
 {
-    "texto": "Recado 1",
+    "texto": "Recado 122",
     "lido": true
 }
 

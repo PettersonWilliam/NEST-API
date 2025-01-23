@@ -8,7 +8,8 @@ import {
 	Delete,
 	HttpStatus,
 	Query,
-	HttpCode 
+	HttpCode, 
+	ParseIntPipe
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
@@ -32,7 +33,7 @@ export class RecadosController {
 
 	// Rota para trazer apebas 1 recado
 	@Get(':id')
-	findOne(@Param('id') id: string) {
+	findOne(@Param('id', ParseIntPipe) id: number) {
 		return this.RecadosService.findOne(id);
 	}
 
@@ -50,7 +51,9 @@ export class RecadosController {
 
 	// Deleta um recado
 	@Delete(':id')
-	remove(@Param('id') id: string) {
+	remove(@Param('id', ParseIntPipe) id: number) {
+		//QUANDO USAMOS O "ParseIntPipe" ELE VAI CONVERTER O ID PARA INTEIRO
+		// SE PASSARMOS UMA STRING LA NO CLIENT REST / VAI DAR ERRO "message": "Validation failed (numeric string is expected)", POIS ELE ESPERA UM NUMERO
 		return this.RecadosService.remove(id);
 	}
 }
