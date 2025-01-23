@@ -16,11 +16,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto": "testando novo recado",
-    "de": "Pett",
-    "para": "João",
-    "lido": false,
-    "data": "2025-01-12T20:40:41.095Z"
+    "texto":"",
+    "de": "Arthur",
+    "para": "Anna",
 }
 
 ### Rota para atualizar um recado
@@ -31,10 +29,7 @@ Content-Type: application/json
 
 {
     "texto": "Recado 1",
-    "de": "João",
-    "para": "Maria",
-    "lido": false,
-    "data": "2025-01-12T20:40:41.095Z"
+    "lido": true
 }
 
 ### Rota para deletar um recado
