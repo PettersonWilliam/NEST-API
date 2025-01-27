@@ -5,6 +5,7 @@ import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 
 @Injectable()
+// @Injectable() // DECORATOR QUE INDICA QUE A CLASSE PODE SER INJETADA EM OUTRAS CLASSES - SERVIÇO QUE VAI SER INJETADO NO CONTROLLER
 export class RecadosService {
     private lastId = 1;
     private recados: Recado[] = [
