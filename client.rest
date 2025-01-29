@@ -7,7 +7,7 @@ GET {{baseUrl}}/recados
 &OFFSET=0
 
 ### Rota para buscar um recado
-GET {{baseUrl}}/recados/2
+GET {{baseUrl}}/recados/1
 
 ###
 # Rota para criar um recado
@@ -16,9 +16,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto":"Ola full",
+    "texto":"Papai está indo treinar",
     "de": "Arthur",
-    "para": "Anna"
+    "para": "Andriela"
 }
 
 ### Rota para atualizar um recado
@@ -33,4 +33,4 @@ Content-Type: application/json
 }
 
 ### Rota para deletar um recado
-DELETE {{baseUrl}}/recados/2
+DELETE {{baseUrl}}/recados/1

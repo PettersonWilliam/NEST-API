@@ -24,11 +24,12 @@ export class RecadosController {
 	//PODEMOS USAR OS QUERYS OPARAMS PARA PEGAR OS DADOS DA URL
 	@HttpCode(HttpStatus.OK)
 	@Get()
-		findAll(@Query() pagination: any) {
+		async findAll(@Query() pagination: any) {
 			const { limit = 10, offiset = 0 } = pagination;
 
 			// return `Retorna TODOS os recados limit ${limit}, offiset ${offiset}`;
-			return this.RecadosService.findAll();
+			const recados = await this.RecadosService.findAll();
+			return recados;
 		}
 
 	// Rota para trazer apebas 1 recado
@@ -45,7 +46,10 @@ export class RecadosController {
 
 	//@update
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateRecadoDto: UpdateRecadoDto) {
+	update(
+		@Param('id', ParseIntPipe) id: number, 
+		@Body() updateRecadoDto: UpdateRecadoDto
+	) {
 		return this.RecadosService.update(id, updateRecadoDto);
 	}
 

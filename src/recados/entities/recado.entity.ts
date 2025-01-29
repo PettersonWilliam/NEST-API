@@ -1,20 +1,20 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Recado {
-    @PrimaryColumn()
-    id: number; // ID do recado
+    @PrimaryGeneratedColumn()
+    id!: number; // ID do recado
 
-    @Column({type: 'varchar', length: 255})
+    @Column({ type: 'varchar', length: 255 })
     texto: string; // Texto do recado
 
-    @Column({type: 'varchar', length: 50})
+    @Column({ type: 'varchar', length: 50 })
     de: string; // Quem enviou o recado
 
-    @Column({type: 'varchar', length: 50})
+    @Column({ type: 'varchar', length: 50 })
     para: string; // Quem recebeu o recado
 
-    @Column({default: false})
+    @Column({ default: false })
     lido: boolean; // Se o recado foi lido ou não
 
     @Column()
@@ -26,8 +26,7 @@ export class Recado {
     @UpdateDateColumn()
     updatedAt?: Date; // Data de atualização do recado -> ? = opcional
 
-    constructor(id: number, texto: string, de: string, para: string, lido: boolean, data: Date) {
-        this.id = id;
+    constructor(texto: string, de: string, para: string, lido: boolean, data: Date) {
         this.texto = texto;
         this.de = de;
         this.para = para;

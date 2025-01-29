@@ -3,32 +3,32 @@ import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Recado } from './entities/recado.entity';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 // @Injectable() // DECORATOR QUE INDICA QUE A CLASSE PODE SER INJETADA EM OUTRAS CLASSES - SERVIÇO QUE VAI SER INJETADO NO CONTROLLER
 export class RecadosService {
-    private lastId = 1;
-    private recados: Recado[] = [
-        {
-            id: 1,
-            texto: 'Recado 1',
-            de: 'João',
-            para: 'Maria',
-            lido: false,
-            data: new Date()
-        }
-    ];
+    constructor(
+        @InjectRepository(Recado)
+        private readonly recadoRepository: Repository<Recado>
+    ) {}
 
     trowNotFoundError() {
         throw new NotFoundException(`RECADO NÃO ENCONTRADO`);
     }
 
-    findAll() {
-        return this.recados;
+    async findAll() {
+        const recados = await this.recadoRepository.find();
+        return recados;
     }
 
     findOne(id: number) {
-        const recado = this.recados.find(recado => recado.id === id);
+        // const recado = this.recados.find(recado => recado.id === id);
+        const recado = this.recadoRepository.findOne({
+            where: { id }
+        });
+
         if (recado) return recado;
 
         this.trowNotFoundError();
@@ -38,49 +38,47 @@ export class RecadosService {
         // throw new Error(`RECADO NÃO ENCONTRADO`, 404); NAO PODEMOS USAR DESSA FORMA POIS ELE SO RECEBE UM PARAMETRO E A APLICACAO VAI QUEBRAR NEST ELE REQUER O STATUSCODE
     }
 
-    create(createRecadoDto: CreateRecadoDto) {
-        this.lastId++;
+    async create(createRecadoDto: CreateRecadoDto) {
         const novoRecado = {
-            id: this.lastId,
             ...createRecadoDto,
             lido: false,
             data: new Date()
         }
 
-        this.recados.push(novoRecado);
-        return novoRecado;
+        const recado = await this.recadoRepository.create(novoRecado);
+        return this.recadoRepository.save(recado);
     }
 
-    update(id: string, updateRecadoDto: UpdateRecadoDto) {
-        const recadoExistenteIndex = this.recados.findIndex(
-            recado => recado.id === +id
-        );
-
-        if (recadoExistenteIndex < 0) {
-            return this.trowNotFoundError();
-        }
-        
-        const recadoExistente = this.recados[recadoExistenteIndex];
-        
-        this.recados[recadoExistenteIndex] = {
-            ...recadoExistente,
-            ...updateRecadoDto
+    async update(id: number, updateRecadoDto: UpdateRecadoDto) {
+        // preload => encontra o valor neste caso o ID e tbm recebe como parametro oq eu vc queira atualizar
+        const partialRecadoDto =  {
+            lido: updateRecadoDto?.lido,
+            texto: updateRecadoDto?.texto
         }
 
-        return this.recados[recadoExistenteIndex];
-    }
+        const  recado = await this.recadoRepository.preload({ 
+            id,
+            ...partialRecadoDto
+        });
+    
+        if (!recado) return this.trowNotFoundError();
+    
+        await this.recadoRepository.save(recado);
 
-    remove(id: number) {
-        const recadoExistenteIndex = this.recados.findIndex(
-            recado => recado.id === id
-        );
-
-        if (recadoExistenteIndex < 0) return this.trowNotFoundError();
-
-        const recado = this.recados[recadoExistenteIndex];
-
-        this.recados.splice(recadoExistenteIndex, 1);
-            
         return recado;
+    }
+
+    async remove(id: number) {
+        // COM ESSSE FINDONEBY ELE BASICAMENTE USA O METODO FINDONE E PASSA O PARAMETRO QUE QUEREMOS BUSCAR sem precisar passar o where
+        //DESSA FORMA AQUI =>  
+        //const recado = this.recadoRepository.findOne({
+        //  where: { id }
+        //});
+
+        const  recado = await this.recadoRepository.findOneBy({ id });
+    
+        if (!recado) return this.trowNotFoundError();
+    
+        return this.recadoRepository.remove(recado);
     }
 }
