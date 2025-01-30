@@ -5,6 +5,7 @@ import { ConceitosManualModule } from '../conceitos-manual/conceitos-manual.modu
 import { ConceitosAutomaticoModule } from '../conceitos-automatico/conceitos-automatico.module';
 import { RecadosModule } from '../recados/recados.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PessoasModule } from '../pessoas/pessoas.module';
 
 @Module({
 	// imports: [ConceitosManualModule, ConceitosAutomaticoModule, RecadosModule],
@@ -19,7 +20,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 			autoLoadEntities: true, //carrega entidades sem precisar especificar
 			synchronize: true // ISSO NAO DEVE SER USADO EM PRODUCAO - sincroniza com o banco automaticamente
 		}),
-		RecadosModule
+		RecadosModule,
+		PessoasModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

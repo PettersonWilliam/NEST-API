@@ -6,6 +6,9 @@ import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+//PODEMOS ULTILIZAR O CLI PARA CRIAR OS ARQUIVOS DE SERVIÇO, CONTROLLER ETC
+//nest g RES PESSOAS - PARA CRIAR UM RECURSO DE PESSOAS
+
 @Injectable()
 // @Injectable() // DECORATOR QUE INDICA QUE A CLASSE PODE SER INJETADA EM OUTRAS CLASSES - SERVIÇO QUE VAI SER INJETADO NO CONTROLLER
 export class RecadosService {
