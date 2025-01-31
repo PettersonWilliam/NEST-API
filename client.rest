@@ -34,3 +34,46 @@ Content-Type: application/json
 
 ### Rota para deletar um recado
 DELETE {{baseUrl}}/recados/1
+
+
+
+
+
+### Rota para criar um usuario
+
+
+
+# Rota para busca todos os recados
+GET {{baseUrl}}/pessoas
+?LIMIT=10
+&OFFSET=0
+
+### Rota para buscar uma pessoa
+GET {{baseUrl}}/pessoas/1
+
+###
+# Rota para criar uma pessoa
+POST {{baseUrl}}/pessoas
+Content-Type: application/json
+//informa o tipo de conteudo que estamos enviando
+
+{
+    "email":"teste@email.com",
+    "password": "12345",
+    "nome": "Arthur"
+}
+
+### Rota para atualizar uma pessoa
+#Usamos o patch para atualizar tbm, 
+#porem ele seria mais usado quando quisermos atulizar a chave de um ,dos valores que queremos atualizar
+PATCH  {{baseUrl}}/pessoas/2
+Content-Type: application/json
+
+{
+    "texto": "Recado 122",
+    "lido": true
+}
+
+### Rota para deletar uma pessoa
+DELETE {{baseUrl}}/pessoas/1
+
