@@ -58,9 +58,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "email":"teste@email.com",
+    "email":"pett@email.com",
     "password": "12345",
-    "nome": "Arthur"
+    "nome": "Petterson"
 }
 
 ### Rota para atualizar uma pessoa
