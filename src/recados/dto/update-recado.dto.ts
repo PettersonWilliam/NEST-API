@@ -5,8 +5,8 @@ import { IsBoolean, IsOptional } from "class-validator";
 export class UpdateRecadoDto extends PartialType(CreateRecadoDto) {
     // readonly -> QUANDO ADD readonly NAO PODEMOS ALTERAR O VALOR DESSA VARIAVEL
     readonly texto?: string; // Texto do recado
-    readonly de?: string; // Quem enviou o recado
-    readonly para?: string; // Quem recebeu o recado
+    readonly de?: number; // Quem enviou o recado
+    readonly para?: number; // Quem recebeu o recado
 
     @IsBoolean()
     @IsOptional()

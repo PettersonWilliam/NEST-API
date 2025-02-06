@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Pessoa } from '../../pessoas/entities/pessoa.entity';
 
 @Entity()
 export class Recado {
@@ -7,12 +8,6 @@ export class Recado {
 
     @Column({ type: 'varchar', length: 255 })
     texto: string; // Texto do recado
-
-    @Column({ type: 'varchar', length: 50 })
-    de: string; // Quem enviou o recado
-
-    @Column({ type: 'varchar', length: 50 })
-    para: string; // Quem recebeu o recado
 
     @Column({ default: false })
     lido: boolean; // Se o recado foi lido ou não
@@ -26,7 +21,17 @@ export class Recado {
     @UpdateDateColumn()
     updatedAt?: Date; // Data de atualização do recado -> ? = opcional
 
-    constructor(texto: string, de: string, para: string, lido: boolean, data: Date) {
+    // Muitos recados podem ser enviados por uma unica pessoa
+    @ManyToOne(() => Pessoa)
+    @JoinColumn({ name: 'de' }) // especifica a coluna de armazena o id da pessoa que ENVIOU o recado
+    de: Pessoa; // Quem enviou o recado
+
+   // Relacionamento de vários recados que podem estar relacionados a uma pessoa
+   @ManyToOne(() => Pessoa)
+   @JoinColumn({ name: 'para' }) //  especifica a coluna de armazena o id da pessoa que RECEBEU o recado
+    para: Pessoa; // Quem recebeu o recado
+
+    constructor(texto: string, de: Pessoa, para: Pessoa, lido: boolean, data: Date) {
         this.texto = texto;
         this.de = de;
         this.para = para;

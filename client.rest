@@ -36,9 +36,6 @@ Content-Type: application/json
 DELETE {{baseUrl}}/recados/1
 
 
-
-
-
 ### Rota para criar um usuario
 
 
@@ -58,20 +55,20 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "email":"pett@email.com",
-    "password": "12345",
-    "nome": "Petterson"
+    "email":"anna_julia@email.com",
+    "password": "54321",
+    "nome": "Anna Julia"
 }
 
 ### Rota para atualizar uma pessoa
 #Usamos o patch para atualizar tbm, 
 #porem ele seria mais usado quando quisermos atulizar a chave de um ,dos valores que queremos atualizar
-PATCH  {{baseUrl}}/pessoas/2
+PATCH  {{baseUrl}}/pessoas/8
 Content-Type: application/json
 
 {
-    "texto": "Recado 122",
-    "lido": true
+    "password": "33333",
+    "nome": "Juju"
 }
 
 ### Rota para deletar uma pessoa

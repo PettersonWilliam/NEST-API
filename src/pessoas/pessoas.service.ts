@@ -46,8 +46,22 @@ export class PessoasService {
     return `This action returns a #${id} pessoa`;
   }
 
-  update(id: number, updatePessoaDto: UpdatePessoaDto) {
-    return `This action updates a #${id} pessoa`;
+  async update(id: number, updatePessoaDto: UpdatePessoaDto) {
+    const dadosPessoa = {
+      nome: updatePessoaDto?.nome,
+      email: updatePessoaDto.email
+    }
+
+    const pessoa = await this.pessoaRepository.preload({
+      id,
+      ...dadosPessoa
+    });
+
+    if (!pessoa) {
+      throw new NotFoundException('Pessoa não encontrada');
+    }
+
+    return await this.pessoaRepository.save(pessoa);
   }
 
   async remove(id: number) {
@@ -60,5 +74,6 @@ export class PessoasService {
     }
 
     return this.pessoaRepository.remove(pessoa);
+
   }
 }

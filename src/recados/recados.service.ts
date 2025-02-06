@@ -1,10 +1,11 @@
-const { Injectable } = require('@nestjs/common');
-import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+const { Injectable, NotFoundException } = require('@nestjs/common');
+import { } from '@nestjs/common';
 import { Recado } from './entities/recado.entity';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Pessoa } from '../pessoas/entities/pessoa.entity';
 
 //PODEMOS ULTILIZAR O CLI PARA CRIAR OS ARQUIVOS DE SERVIÇO, CONTROLLER ETC
 //nest g RES PESSOAS - PARA CRIAR UM RECURSO DE PESSOAS
@@ -14,7 +15,9 @@ import { Repository } from 'typeorm';
 export class RecadosService {
     constructor(
         @InjectRepository(Recado)
-        private readonly recadoRepository: Repository<Recado>
+        private readonly recadoRepository: Repository<Recado>,
+        @InjectRepository(Pessoa)
+        private readonly pessoaRepository: Repository<Pessoa>
     ) {}
 
     trowNotFoundError() {
@@ -48,7 +51,7 @@ export class RecadosService {
             data: new Date()
         }
 
-        const recado = await this.recadoRepository.create(novoRecado);
+        const recado = this.recadoRepository.create(novoRecado);
         return this.recadoRepository.save(recado);
     }
 
