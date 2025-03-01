@@ -1,16 +1,15 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
 
 export class CreateRecadoDto {
     @IsString()
     @IsNotEmpty()
     texto!: string;
 
-    // @IsString()
-    // @IsNotEmpty()
-    // @IsNumber()
-    // de!: number;
+    @IsNumber()
+    @IsPositive()
+    deId!: number;
 
-    // @IsString()
-    // @IsNotEmpty()
-    // para!: number;
+    @IsNumber()
+    @IsPositive()
+    paraId!: number;
 }

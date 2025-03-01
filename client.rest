@@ -16,9 +16,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto":"Papai está indo treinar",
-    "de": "Arthur",
-    "para": "Andriela"
+    "texto":"Mamãe está indo treinar",
+    "deId": 4,
+    "paraId": 1
 }
 
 ### Rota para atualizar um recado

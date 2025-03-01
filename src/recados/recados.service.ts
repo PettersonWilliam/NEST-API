@@ -1,17 +1,12 @@
-const { Injectable, NotFoundException } = require('@nestjs/common');
-import { } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Recado } from './entities/recado.entity';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Pessoa } from '../pessoas/entities/pessoa.entity';
 
-//PODEMOS ULTILIZAR O CLI PARA CRIAR OS ARQUIVOS DE SERVIÇO, CONTROLLER ETC
-//nest g RES PESSOAS - PARA CRIAR UM RECURSO DE PESSOAS
-
 @Injectable()
-// @Injectable() // DECORATOR QUE INDICA QUE A CLASSE PODE SER INJETADA EM OUTRAS CLASSES - SERVIÇO QUE VAI SER INJETADO NO CONTROLLER
 export class RecadosService {
     constructor(
         @InjectRepository(Recado)
@@ -20,71 +15,67 @@ export class RecadosService {
         private readonly pessoaRepository: Repository<Pessoa>
     ) {}
 
-    trowNotFoundError() {
+    private trowNotFoundError() {
         throw new NotFoundException(`RECADO NÃO ENCONTRADO`);
     }
 
     async findAll() {
-        const recados = await this.recadoRepository.find();
-        return recados;
+        return await this.recadoRepository.find();
     }
 
-    findOne(id: number) {
-        // const recado = this.recados.find(recado => recado.id === id);
-        const recado = this.recadoRepository.findOne({
-            where: { id }
-        });
-
-        if (recado) return recado;
-
-        this.trowNotFoundError();
-
-        // throw new HttpException(`RECADO NÃO ENCONTRADO`, HttpStatus.NOT_FOUND);
-        // NESTE CASO ULTILIZAMOS ESSE METODO "HttpException" POIS COMO DAR ERRO, ALEM DA MENSAGEM DE ERRO, ELE RETORNA O STUSCODE DO ERRO "404"
-        // throw new Error(`RECADO NÃO ENCONTRADO`, 404); NAO PODEMOS USAR DESSA FORMA POIS ELE SO RECEBE UM PARAMETRO E A APLICACAO VAI QUEBRAR NEST ELE REQUER O STATUSCODE
-    }
-
-    async create(createRecadoDto: CreateRecadoDto) {
-        const novoRecado = {
-            ...createRecadoDto,
-            lido: false,
-            data: new Date()
-        }
-
-        const recado = this.recadoRepository.create(novoRecado);
-        return this.recadoRepository.save(recado);
-    }
-
-    async update(id: number, updateRecadoDto: UpdateRecadoDto) {
-        // preload => encontra o valor neste caso o ID e tbm recebe como parametro oq eu vc queira atualizar
-        const partialRecadoDto =  {
-            lido: updateRecadoDto?.lido,
-            texto: updateRecadoDto?.texto
-        }
-
-        const  recado = await this.recadoRepository.preload({ 
-            id,
-            ...partialRecadoDto
-        });
-    
-        if (!recado) return this.trowNotFoundError();
-    
-        await this.recadoRepository.save(recado);
-
+    async findOne(id: number) {
+        const recado = await this.recadoRepository.findOne({ where: { id } });
+        if (!recado) this.trowNotFoundError();
         return recado;
     }
 
-    async remove(id: number) {
-        // COM ESSSE FINDONEBY ELE BASICAMENTE USA O METODO FINDONE E PASSA O PARAMETRO QUE QUEREMOS BUSCAR sem precisar passar o where
-        //DESSA FORMA AQUI =>  
-        //const recado = this.recadoRepository.findOne({
-        //  where: { id }
-        //});
+    async create(createRecadoDto: CreateRecadoDto) {
+        const pessoaDe = await this.pessoaRepository.findOne({ where: { id: createRecadoDto.deId } });
+        if (!pessoaDe) {
+            throw new NotFoundException(`Pessoa com id ${createRecadoDto.deId} não encontrada`);
+        }
 
-        const  recado = await this.recadoRepository.findOneBy({ id });
-    
-        if (!recado) return this.trowNotFoundError();
-    
-        return this.recadoRepository.remove(recado);
+        const pessoaPara = await this.pessoaRepository.findOne({ where: { id: createRecadoDto.paraId } });
+        if (!pessoaPara) {
+            throw new NotFoundException(`Pessoa com id ${createRecadoDto.paraId} não encontrada`);
+        }
+
+        const novoRecado = this.recadoRepository.create({
+            ...createRecadoDto,
+            de: pessoaDe,
+            para: pessoaPara,
+            lido: false,
+            data: new Date()
+        });
+        return await this.recadoRepository.save(novoRecado);
+    }
+
+    async update(id: number, updateRecadoDto: UpdateRecadoDto) {
+        const pessoaDe = updateRecadoDto.de ? await this.pessoaRepository.findOne({ where: { id: updateRecadoDto.de } }) : undefined;
+        if (updateRecadoDto.de && !pessoaDe) {
+            throw new NotFoundException(`Pessoa com id ${updateRecadoDto.de} não encontrada`);
+        }
+
+        const pessoaPara = updateRecadoDto.para ? await this.pessoaRepository.findOne({ where: { id: updateRecadoDto.para } }) : undefined;
+        if (updateRecadoDto.para && !pessoaPara) {
+            throw new NotFoundException(`Pessoa com id ${updateRecadoDto.para} não encontrada`);
+        }
+
+        const recado = await this.recadoRepository.preload({ 
+            id,
+            ...updateRecadoDto,
+            de: pessoaDe || undefined,
+            para: pessoaPara || undefined
+        });
+
+        if (!recado) this.trowNotFoundError();
+        if (!recado) this.trowNotFoundError();
+        return await this.recadoRepository.save(recado!);
+    }
+
+    async remove(id: number) {
+        const recado = await this.recadoRepository.findOneBy({ id });
+        if (!recado) this.trowNotFoundError();
+        return await this.recadoRepository.remove(recado!);
     }
 }
