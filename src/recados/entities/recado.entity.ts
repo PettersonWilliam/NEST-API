@@ -22,12 +22,12 @@ export class Recado {
     updatedAt?: Date; // Data de atualização do recado -> ? = opcional
 
     // Muitos recados podem ser enviados por uma unica pessoa
-    @ManyToOne(() => Pessoa)
+    @ManyToOne(() => Pessoa, {onDelete: 'CASCADE', onUpdate: 'CASCADE'}) // onDelete: 'CASCADE' -> se a pessoa for deletada, todos os recados enviados por ela também serão deletados / onUpdate: 'CASCADE' -> se o id da pessoa for alterado, todos os recados enviados por ela também serão alterados
     @JoinColumn({ name: 'de' }) // especifica a coluna de armazena o id da pessoa que ENVIOU o recado
     de: Pessoa; // Quem enviou o recado
 
    // Relacionamento de vários recados que podem estar relacionados a uma pessoa
-   @ManyToOne(() => Pessoa)
+   @ManyToOne(() => Pessoa, {onDelete: 'CASCADE', onUpdate: 'CASCADE'}) // onDelete: 'CASCADE' -> se a pessoa for deletada, todos os recados enviados por ela também serão deletados / onUpdate: 'CASCADE' -> se o id da pessoa for alterado, todos os recados enviados por ela também serão alterados
    @JoinColumn({ name: 'para' }) //  especifica a coluna de armazena o id da pessoa que RECEBEU o recado
     para: Pessoa; // Quem recebeu o recado
 

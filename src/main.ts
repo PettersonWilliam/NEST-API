@@ -9,7 +9,7 @@ async function bootstrap() {
     forbidNonWhitelisted: true, // retorna um erro se tiver campos que nao estao no DTO
     transform: false
   }));
-  await app.listen(process.env.PORT ?? 4000);
+  await app.listen(process.env.PORT ?? 4001);
 }
 
 bootstrap();

@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:4000
+@baseUrl = http://localhost:4001
 # AppControllerGethello
 
 # Rota para busca todos os recados
@@ -16,9 +16,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "texto":"Mamãe está indo treinar",
-    "deId": 4,
-    "paraId": 1
+    "texto":"De Leo Para Anna Júlia",
+    "deId": 9,
+    "paraId": 8
 }
 
 ### Rota para atualizar um recado
@@ -34,6 +34,20 @@ Content-Type: application/json
 
 ### Rota para deletar um recado
 DELETE {{baseUrl}}/recados/1
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 
 ### Rota para criar um usuario
@@ -55,9 +69,9 @@ Content-Type: application/json
 //informa o tipo de conteudo que estamos enviando
 
 {
-    "email":"anna_julia@email.com",
-    "password": "54321",
-    "nome": "Anna Julia"
+    "email":"leo@email.com",
+    "password": "123456",
+    "nome": "leo"
 }
 
 ### Rota para atualizar uma pessoa
